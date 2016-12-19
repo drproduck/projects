@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FX/FX.iml" filepath="$PROJECT_DIR$/FX/FX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tabpane/tabpane.iml" filepath="$PROJECT_DIR$/tabpane/tabpane.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/violetFX.iml" filepath="$PROJECT_DIR$/violetFX.iml" />
+    </modules>
+  </component>
+</project>
