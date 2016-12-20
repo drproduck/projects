@@ -17,6 +17,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Shadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -51,70 +52,31 @@ public class Node extends Group {
 
     //private FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
 
-    public SimpleDoubleProperty x;
-
-    public double getX() {
-        return x.get();
-    }
-
-    public SimpleDoubleProperty xProperty() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x.set(x);
-    }
-
-    public double getY() {
-        return y.get();
-    }
-
-    public SimpleDoubleProperty yProperty() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y.set(y);
-    }
-
-    public SimpleDoubleProperty y;
-
-    //public SimpleDoubleProperty centerXProperty = new SimpleDoubleProperty();
-
     public DoubleBinding centerXProperty;
     public DoubleBinding centerYProperty;
 
     public Node(double cx, double cy) {
         super();
 
-        boundsInLocalProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue.getMinX());
-            System.out.println(newValue.getWidth());
-        });
-
-        x= new SimpleDoubleProperty(cx - DEF_WIDTH / 2);
-        y = new SimpleDoubleProperty(cy - DEF_HEIGHT / 2);
-        localToScene(getX(), getY());
-        text.relocate(getX(), getY());
-        rect.relocate(getX(), getY());
+        relocate(cx - DEF_WIDTH / 2,cy - DEF_HEIGHT / 2);
         getChildren().addAll(rect, text);
         handle();
         centerXProperty = new DoubleBinding() {
             {
-                super.bind(xProperty(), rect.widthProperty());
+                super.bind(layoutXProperty(), rect.widthProperty());
             }
             @Override
             protected double computeValue() {
-                return xProperty().doubleValue()+ rect.widthProperty().doubleValue()/2;
+                return layoutXProperty().doubleValue()+ rect.widthProperty().doubleValue()/2;
             }
         };
         centerYProperty = new DoubleBinding() {
             {
-                super.bind(yProperty(), rect.heightProperty());
+                super.bind(layoutYProperty(), rect.heightProperty());
             }
             @Override
             protected double computeValue() {
-                return yProperty().doubleValue()+rect.heightProperty().doubleValue()/2;
+                return layoutYProperty().doubleValue()+rect.heightProperty().doubleValue()/2;
             }
         };
         rect.widthProperty().bind(new DoubleBinding() {
@@ -156,8 +118,6 @@ public class Node extends Group {
         setOnMouseDragged(e -> {
             setLayoutX(getLayoutX()+e.getX() - d.x);
             setLayoutY(getLayoutY()+e.getY() - d.y);
-            setX(getX()+e.getX() - d.x);
-            setY(getY()+e.getY() - d.y);
             e.consume();
         });
     }

@@ -35,7 +35,6 @@ public class main extends Application {
         node1.toFront();
         node2.toFront();
         sceneHandle();
-        System.out.println("bit shift "+ (5 >> 1));
     }
     private void sceneHandle() {
         sc.setOnMousePressed(event -> {
