@@ -29,8 +29,7 @@ import sun.java2d.pipe.SpanShapeRenderer;
  * Created by Khiem on 12/18/2016.
  */
 public class Node extends Group {
-    private double x;
-    private double y;
+
     private Delta d;
     private int DEF_WIDTH = 50;
     private int DEF_HEIGHT = 50;
@@ -52,56 +51,76 @@ public class Node extends Group {
 
     //private FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
 
-    private DoubleBinding centerXProperty = new DoubleBinding() {
-        {
-            super.bind(layoutXProperty(), rect.widthProperty());
-        }
-        @Override
-        protected double computeValue() {
-            return layoutXProperty().doubleValue()+ rect.widthProperty().doubleValue()/2;
-        }
-    };
+    public SimpleDoubleProperty x;
+
+    public double getX() {
+        return x.get();
+    }
+
+    public SimpleDoubleProperty xProperty() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x.set(x);
+    }
+
+    public double getY() {
+        return y.get();
+    }
+
+    public SimpleDoubleProperty yProperty() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y.set(y);
+    }
+
+    public SimpleDoubleProperty y;
 
     //public SimpleDoubleProperty centerXProperty = new SimpleDoubleProperty();
 
+    public DoubleBinding centerXProperty;
+    public DoubleBinding centerYProperty;
+
     public Node(double cx, double cy) {
         super();
-        x = cx - DEF_WIDTH / 2;
-        y = cy - DEF_HEIGHT / 2;
-        localToScene(x, y);
-        text.relocate(x,y);
-        rect.relocate(x,y);
+
+        boundsInLocalProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue.getMinX());
+            System.out.println(newValue.getWidth());
+        });
+
+        x= new SimpleDoubleProperty(cx - DEF_WIDTH / 2);
+        y = new SimpleDoubleProperty(cy - DEF_HEIGHT / 2);
+        localToScene(getX(), getY());
+        text.relocate(getX(), getY());
+        rect.relocate(getX(), getY());
         getChildren().addAll(rect, text);
         handle();
-
-
-        layoutXProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("layout x: "+newValue.doubleValue());
-        });
-        rect.widthProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("width: "+newValue.doubleValue());
-        });
-        centerXProperty.addListener((observable, oldValue, newValue) -> {
-            System.out.println("center x: "+newValue.doubleValue());
-        });
-        text.widthProperty().addListener((observable, oldValue, newValue) ->
-        {
-            System.out.println("changed " + oldValue + "->" + newValue);
-            if (newValue.doubleValue()<50) {
-                rect.setWidth(50);
+        centerXProperty = new DoubleBinding() {
+            {
+                super.bind(xProperty(), rect.widthProperty());
             }
-            else rect.setWidth(newValue.doubleValue());
-        });
-        text.heightProperty().addListener((observable, oldValue, newValue) ->
-        {
-            System.out.println("changed " + oldValue + "->" + newValue);
-            if (newValue.doubleValue()<50) {
-                rect.setHeight(50);
+            @Override
+            protected double computeValue() {
+                return xProperty().doubleValue()+ rect.widthProperty().doubleValue()/2;
             }
-            else rect.setHeight(newValue.doubleValue());
-        });
-        /*
+        };
+        centerYProperty = new DoubleBinding() {
+            {
+                super.bind(yProperty(), rect.heightProperty());
+            }
+            @Override
+            protected double computeValue() {
+                return yProperty().doubleValue()+rect.heightProperty().doubleValue()/2;
+            }
+        };
         rect.widthProperty().bind(new DoubleBinding() {
+            {
+                super.bind(text.widthProperty());
+            }
             @Override
             protected double computeValue() {
 
@@ -112,6 +131,9 @@ public class Node extends Group {
             }
         });
         rect.heightProperty().bind(new DoubleBinding() {
+            {
+                super.bind(text.heightProperty());
+            }
             @Override
             protected double computeValue() {
                 if (text.heightProperty().get()<50) {
@@ -120,7 +142,6 @@ public class Node extends Group {
                 return text.heightProperty().get();
             }
         });
-        */
     }
     private void handle() {
         setOnMousePressed(e -> {
@@ -133,8 +154,10 @@ public class Node extends Group {
             }
         });
         setOnMouseDragged(e -> {
-            setLayoutX(getLayoutX() + e.getX() - d.x);
-            setLayoutY(getLayoutY() + e.getY() - d.y);
+            setLayoutX(getLayoutX()+e.getX() - d.x);
+            setLayoutY(getLayoutY()+e.getY() - d.y);
+            setX(getX()+e.getX() - d.x);
+            setY(getY()+e.getY() - d.y);
             e.consume();
         });
     }
