@@ -1,30 +1,17 @@
-import com.sun.javafx.tk.FontLoader;
-import com.sun.javafx.tk.Toolkit;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Shadow;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 /**
  * Created by Khiem on 12/18/2016.
@@ -104,6 +91,9 @@ public class Node extends Group {
                 return text.heightProperty().get();
             }
         });
+        // hanger
+        getChildren().addAll(new Anchor(new SimpleDoubleProperty(0), rect.heightProperty().divide(2)), new Anchor(Bindings.divide(rect.widthProperty(),2), new SimpleDoubleProperty(0)),
+                new Anchor(rect.widthProperty(), Bindings.divide(rect.heightProperty(),2)),new Anchor(Bindings.divide(rect.widthProperty(),2), rect.heightProperty()));
     }
     private void handle() {
         setOnMousePressed(e -> {

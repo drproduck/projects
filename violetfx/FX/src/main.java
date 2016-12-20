@@ -1,16 +1,10 @@
-import com.sun.javafx.geom.Edge;
-import com.sun.org.apache.bcel.internal.generic.POP;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.PointLight;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
