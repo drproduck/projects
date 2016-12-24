@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FX/FX.iml" filepath="$PROJECT_DIR$/FX/FX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Reversi.iml" filepath="$PROJECT_DIR$/Reversi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main.iml" filepath="$PROJECT_DIR$/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/tabpane/tabpane.iml" filepath="$PROJECT_DIR$/tabpane/tabpane.iml" />
       <module fileurl="file://$PROJECT_DIR$/test/test.iml" filepath="$PROJECT_DIR$/test/test.iml" />
       <module fileurl="file://$PROJECT_DIR$/violetFX.iml" filepath="$PROJECT_DIR$/violetFX.iml" />
