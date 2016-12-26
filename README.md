@@ -1,1 +1,1 @@
-# the-swarm
+# all projects
